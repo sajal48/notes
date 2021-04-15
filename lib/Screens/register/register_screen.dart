@@ -19,40 +19,42 @@ class RegisterScreen extends StatelessWidget {
               gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
-                  stops: [.2,.9,],
+                  stops: [
+                .2,
+                .9,
+              ],
                   colors: [
-                    Colors.blueGrey,Colors.white10
-                  ])
-          ),
-          child: Stack(
-              children:[
-                CurvedWidget(
-                  child: Container(
-                      padding: EdgeInsets.only(top: 70,left: 35),
-                      height: 250,
-                      width: double.infinity,
-                      color: Colors.white38,
-
-                      child: NeumorphicText("Register",textAlign: TextAlign.start,textStyle: NeumorphicTextStyle(
-                        fontSize: 40,
-                      ),style: NeumorphicStyle(
-                          color: Colors.black,
-                          shadowDarkColor: Colors.black,
-                          shadowLightColor: Colors.white,
-                          depth:4
-                      ),
-                      )
-                  ),
-                ),
-                SingleChildScrollView(
-                  child: Container(
-                    margin: EdgeInsets.only(top: 230),
-                    child:RegisterForm(),
-                  ),
-                )
-
-              ]
-          ),
+                Colors.blueGrey,
+                Colors.white10
+              ])),
+          child: Stack(children: [
+            CurvedWidget(
+              child: Container(
+                  padding: EdgeInsets.only(top: 70, left: 35),
+                  height: 250,
+                  width: double.infinity,
+                  color: Colors.white38,
+                  child: NeumorphicText(
+                    "Register",
+                    textAlign: TextAlign.start,
+                    textStyle: NeumorphicTextStyle(
+                      fontSize: 65,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    style: NeumorphicStyle(
+                        color: Colors.transparent,
+                        shadowDarkColor: Colors.black,
+                        shadowLightColor: Colors.white,
+                        depth: 4),
+                  )),
+            ),
+            SingleChildScrollView(
+              child: Container(
+                margin: EdgeInsets.only(top: 230),
+                child: RegisterForm(),
+              ),
+            )
+          ]),
         ),
       ),
     );

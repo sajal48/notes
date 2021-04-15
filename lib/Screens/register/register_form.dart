@@ -24,41 +24,55 @@ class _LoginFormState extends State<RegisterForm> {
       child: Neumorphic(
         style: NeumorphicStyle(
           color: Colors.transparent,
-
         ),
         child: Form(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
               children: <Widget>[
-                TextFormField(
-                  controller: _emailcontroller,
-                  keyboardType: TextInputType.emailAddress,
-                  autovalidateMode: AutovalidateMode.always,
-                  decoration: InputDecoration(
-                    labelText: "Email",
-                    icon: Icon(Icons.email),
+                Neumorphic(
+                  padding: EdgeInsets.fromLTRB(8, 2, 8, 2),
+                  style: NeumorphicStyle(color: Colors.transparent, depth: -5),
+                  child: TextFormField(
+                    controller: _emailcontroller,
+                    keyboardType: TextInputType.emailAddress,
+                    autovalidateMode: AutovalidateMode.always,
+                    decoration: InputDecoration(
+                      icon: Icon(Icons.email),
+                      labelText: "Email",
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                    ),
                   ),
                 ),
-                TextFormField(
-                  controller: _passcontroller,
-                  obscureText: true,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
-                      labelText: "Password"
+                Padding(padding: EdgeInsets.all(10)),
+                Neumorphic(
+                  padding: EdgeInsets.fromLTRB(8, 2, 8, 2),
+                  style: NeumorphicStyle(color: Colors.transparent, depth: -5),
+                  child: TextFormField(
+                    controller: _passcontroller,
+                    obscureText: true,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: InputDecoration(
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        icon: Icon(Icons.lock),
+                        labelText: "Password"),
                   ),
                 ),
                 Padding(padding: EdgeInsets.all(30)),
                 Custom_Btn(
                   txt: Text("Login"),
                   icon: Icon(Icons.arrow_forward),
-                  onPressed: (){},
+                  onPressed: () {},
                 ),
                 Padding(padding: EdgeInsets.all(10)),
-
-
-
               ],
             ),
           ),

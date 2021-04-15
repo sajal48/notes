@@ -25,7 +25,6 @@ class _LoginFormState extends State<LoginForm> {
       child: Neumorphic(
         style: NeumorphicStyle(
           color: Colors.transparent,
-
         ),
         child: Form(
           child: Padding(
@@ -34,55 +33,56 @@ class _LoginFormState extends State<LoginForm> {
               children: <Widget>[
                 Neumorphic(
                   padding: EdgeInsets.fromLTRB(8, 2, 8, 2),
-                   style: NeumorphicStyle(
-                     color: Colors.transparent,
-                     depth: -5
-                   ),
+                  style: NeumorphicStyle(color: Colors.transparent, depth: -5),
                   child: TextFormField(
                     controller: _emailcontroller,
                     keyboardType: TextInputType.emailAddress,
                     autovalidateMode: AutovalidateMode.always,
                     decoration: InputDecoration(
-                      labelText: "Email",
                       icon: Icon(Icons.email),
+                      labelText: "Email",
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
                     ),
                   ),
                 ),
                 Padding(padding: EdgeInsets.all(10)),
                 Neumorphic(
                   padding: EdgeInsets.fromLTRB(8, 2, 8, 2),
-                  style: NeumorphicStyle(
-                      color: Colors.transparent,
-                      depth: -5
-                  ),
+                  style: NeumorphicStyle(color: Colors.transparent, depth: -5),
                   child: TextFormField(
                     controller: _passcontroller,
                     obscureText: true,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     decoration: InputDecoration(
-                      icon: Icon(Icons.lock),
-                        labelText: "Password"
-                    ),
+                        border: InputBorder.none,
+                        focusedBorder: InputBorder.none,
+                        enabledBorder: InputBorder.none,
+                        errorBorder: InputBorder.none,
+                        disabledBorder: InputBorder.none,
+                        icon: Icon(Icons.lock),
+                        labelText: "Password"),
                   ),
                 ),
                 Padding(padding: EdgeInsets.all(30)),
                 Custom_Btn(
                   txt: Text("Login"),
                   icon: Icon(Icons.arrow_forward),
-                  onPressed: (){},
+                  onPressed: () {},
                 ),
                 Padding(padding: EdgeInsets.all(10)),
                 Custom_Btn(
                   txt: Text("Register"),
                   icon: Icon(Icons.create),
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (_){
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) {
                       return RegisterScreen();
                     }));
                   },
                 )
-
-
               ],
             ),
           ),
