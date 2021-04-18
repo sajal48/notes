@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:notes/Repository/userrepo.dart';
 import 'package:notes/validator/validators.dart';
 
@@ -11,8 +12,8 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final UserRepo _userRepository;
 
-  LoginBloc({UserRepo userRepository})
-      : _userRepository = userRepository,
+  LoginBloc()
+      : _userRepository = UserRepo(),
         super(LoginState.initial());
 
   @override
@@ -41,7 +42,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     try {
       await _userRepository.signInWithCredetial(email, password);
       yield LoginState.success();
-    } catch (_) {
+    } on FirebaseException catch (e) {
       yield LoginState.failure();
     }
   }

@@ -6,11 +6,11 @@ abstract class AuthenticationState extends Equatable {
 
 class AuthenticationInitial extends AuthenticationState {}
 
-class AuthenticationSuccess extends AuthenticationState{
+class AuthenticationSuccess extends AuthenticationState {
   final User user;
   AuthenticationSuccess(this.user);
   @override
   List<Object> get props => [user];
 }
 
-class AuthenticationFailure extends AuthenticationState{}
+class AuthenticationFailure extends AuthenticationState {}
