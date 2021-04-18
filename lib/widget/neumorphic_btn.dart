@@ -6,21 +6,22 @@ class Custom_Btn extends StatelessWidget {
   final Text txt;
   final Icon icon;
 
-  const Custom_Btn({Key key, this.onPressed, this.txt, this.icon}) : super(key: key);
+  const Custom_Btn({Key key, this.onPressed, this.txt, this.icon})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 120,
       child: NeumorphicButton(
-        onPressed: onPressed,
-        child: Row(
-           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            txt,
-            icon,
-          ],
-        )
-      ),
+          style: NeumorphicStyle(color: Colors.transparent),
+          onPressed: onPressed,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              txt,
+              icon,
+            ],
+          )),
     );
   }
 }
