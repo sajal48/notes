@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:notes/blocs/notes_bloc/notes_provider.dart';
+import 'package:notes/models/notesmodel.dart';
+import 'package:provider/provider.dart';
 
 class Editnote extends StatefulWidget {
-  DocumentSnapshot docs;
-  Editnote({this.docs});
+  final NoteModel note;
+  Editnote({this.note});
   @override
   _EditnoteState createState() => _EditnoteState();
 }
@@ -16,33 +19,43 @@ class _EditnoteState extends State<Editnote> {
 
   @override
   void initState() {
-    title = TextEditingController(text: widget.docs.get('title'));
-    content = TextEditingController(text: widget.docs.get('content'));
+    final noteProvider = Provider.of<NotesProvider>(context, listen: false);
+    if (widget.note != null) {
+      title = TextEditingController(text: widget.note.title);
+      content = TextEditingController(text: widget.note.content);
+      noteProvider.loadAll(widget.note);
+    } else {
+      noteProvider.loadAll(null);
+    }
     super.initState();
   }
 
   @override
+  void dispose() {
+    title.dispose();
+    content.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final noteprovider = Provider.of<NotesProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow,
         actions: [
           TextButton(
             onPressed: () {
-              widget.docs.reference.update({
-                'title': title.text,
-                'content': content.text
-              }).whenComplete(() => Navigator.pop(context));
+              noteprovider.saveNote();
+              Navigator.of(context).pop();
               // ref.add({
             },
             child: Text('save'),
           ),
           TextButton(
             onPressed: () {
-              widget.docs.reference
-                  .delete()
-                  .whenComplete(() => Navigator.pop(context));
-              // ref.add({
+              noteprovider.removeNote(widget.note.entryID);
+              Navigator.of(context).pop();
             },
             child: Text('delete'),
           ),
@@ -57,6 +70,7 @@ class _EditnoteState extends State<Editnote> {
               child: TextField(
                 controller: title,
                 decoration: InputDecoration(hintText: 'Title'),
+                onChanged: (value) => noteprovider.changeTitle = value,
               ),
             ),
             Expanded(
@@ -67,6 +81,7 @@ class _EditnoteState extends State<Editnote> {
                   maxLines: null,
                   expands: true,
                   decoration: InputDecoration(hintText: 'Content'),
+                  onChanged: (value) => noteprovider.changeContent = value,
                 ),
               ),
             )

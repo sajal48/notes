@@ -5,8 +5,10 @@ import 'package:notes/Repository/userrepo.dart';
 import 'package:notes/Screens/home/home_screen.dart';
 import 'package:notes/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:notes/blocs/login_bloc/login_bloc.dart';
+import 'package:provider/provider.dart';
 
 import 'Screens/login/login_screen.dart';
+import 'blocs/notes_bloc/notes_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,8 +20,13 @@ void main() async {
         create: (context) => AuthenticationBloc(userRepo: userRepo),
       ),
     ],
-    child: MyApp(
-      userRepo: userRepo,
+    child: MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => NotesProvider()),
+      ],
+      child: MyApp(
+        userRepo: userRepo,
+      ),
     ),
   ));
 }
