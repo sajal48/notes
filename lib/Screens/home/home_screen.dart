@@ -1,12 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:notes/Screens/home/addnote_screen.dart';
+import 'package:notes/Screens/home/editnote.dart';
 import 'package:notes/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:notes/widget/curved_widget.dart';
 
 class HomeScreen extends StatelessWidget {
   User user;
+  final ref = FirebaseFirestore.instance.collection('notes');
 
   HomeScreen({Key key, this.user}) : super(key: key);
   HomeScreen.n() {
@@ -16,6 +20,13 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => AddNoteScreen()));
+        },
+      ),
       body: Neumorphic(
         child: Container(
           height: double.infinity,
@@ -66,6 +77,38 @@ class HomeScreen extends StatelessWidget {
                     style: NeumorphicStyle(color: Colors.blueGrey, depth: 2),
                   ),
                 )),
+            StreamBuilder<QuerySnapshot>(
+                stream: ref.snapshots(),
+                builder: (context, snapshot) {
+                  return GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2),
+                    itemCount: snapshot.hasData ? snapshot.data.docs.length : 0,
+                    itemBuilder: (_, index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (_) => Editnote(
+                                        docs: snapshot.data.docs[index],
+                                      )));
+                        },
+                        child: Container(
+                          margin: EdgeInsets.all(20),
+                          height: 150,
+                          color: Colors.yellow,
+                          child: Column(
+                            children: [
+                              Text(snapshot.data.docs[index].get('title')),
+                              Text(snapshot.data.docs[index].get('content'))
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }),
           ]),
         ),
       ),
