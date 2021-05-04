@@ -14,6 +14,7 @@ class Editnote extends StatefulWidget {
 class _EditnoteState extends State<Editnote> {
   TextEditingController title = TextEditingController();
   TextEditingController content = TextEditingController();
+  TextEditingController date = TextEditingController();
   //CollectionReference ref = FirebaseFirestore.instance.collection('notes');
   //
 
@@ -23,6 +24,7 @@ class _EditnoteState extends State<Editnote> {
     if (widget.note != null) {
       title = TextEditingController(text: widget.note.title);
       content = TextEditingController(text: widget.note.content);
+      date = TextEditingController(text: widget.note.date);
       noteProvider.loadAll(widget.note);
     } else {
       noteProvider.loadAll(null);
@@ -41,23 +43,34 @@ class _EditnoteState extends State<Editnote> {
   Widget build(BuildContext context) {
     final noteprovider = Provider.of<NotesProvider>(context);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.yellow,
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
+        backgroundColor: Colors.white,
+        shadowColor: Colors.transparent,
         actions: [
-          TextButton(
+          IconButton(
+            icon: Icon(
+              Icons.save_rounded,
+              color: Colors.black,
+            ),
             onPressed: () {
               noteprovider.saveNote();
               Navigator.of(context).pop();
               // ref.add({
             },
-            child: Text('save'),
           ),
-          TextButton(
+          IconButton(
+            icon: Icon(
+              Icons.delete,
+              color: Colors.red,
+            ),
             onPressed: () {
               noteprovider.removeNote(widget.note.entryID);
               Navigator.of(context).pop();
             },
-            child: Text('delete'),
           ),
         ],
       ),
@@ -66,24 +79,41 @@ class _EditnoteState extends State<Editnote> {
         child: Column(
           children: [
             Container(
-              decoration: BoxDecoration(border: Border.all()),
               child: TextField(
                 controller: title,
-                decoration: InputDecoration(hintText: 'Title'),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+                decoration: InputDecoration(
+                  hintText: 'Title',
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                ),
                 onChanged: (value) => noteprovider.changeTitle = value,
               ),
             ),
             Expanded(
               child: Container(
-                decoration: BoxDecoration(border: Border.all()),
                 child: TextField(
                   controller: content,
                   maxLines: null,
                   expands: true,
-                  decoration: InputDecoration(hintText: 'Content'),
+                  decoration: InputDecoration(
+                    hintText: 'Content',
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                  ),
                   onChanged: (value) => noteprovider.changeContent = value,
                 ),
               ),
+            ),
+            Container(
+              width: double.infinity,
+              child: Center(child: Text(date.text)),
             )
           ],
         ),

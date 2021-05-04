@@ -8,11 +8,11 @@ import 'package:notes/blocs/authentication_bloc/authentication_bloc.dart';
 import 'package:notes/blocs/notes_bloc/notes_provider.dart';
 import 'package:notes/models/notesmodel.dart';
 import 'package:notes/widget/curved_widget.dart';
+import 'package:notes/widget/note_widget.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   User user;
-  final ref = FirebaseFirestore.instance.collection('notes');
 
   HomeScreen({Key key, this.user}) : super(key: key);
   HomeScreen.n() {
@@ -80,32 +80,35 @@ class HomeScreen extends StatelessWidget {
                     style: NeumorphicStyle(color: Colors.blueGrey, depth: 2),
                   ),
                 )),
-            StreamBuilder<List<NoteModel>>(
-              stream: noteProvider.notes,
-              builder: (context, snapshot) {
-                return GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2),
-                    itemCount:
-                        (snapshot.data.length) != 0 ? snapshot.data.length : 0,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        child: Container(
-                          color: Colors.amber,
-                          height: 60,
-                          padding: EdgeInsets.all(20),
-                          child: Center(
-                            child: Text(snapshot.data[index].title),
+            Container(
+              margin:
+                  EdgeInsets.only(top: 150, left: 10, right: 10, bottom: 10),
+              child: StreamBuilder<List<NoteModel>>(
+                stream: noteProvider.notes,
+                builder: (context, snapshot) {
+                  return GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2),
+                      itemCount: snapshot.data.length != null
+                          ? snapshot.data.length
+                          : 0,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          padding: EdgeInsets.all(8),
+                          child: GestureDetector(
+                            child: NoteCard(
+                              b: snapshot.data[index],
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      Editnote(note: snapshot.data[index])));
+                            },
                           ),
-                        ),
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  Editnote(note: snapshot.data[index])));
-                        },
-                      );
-                    });
-              },
+                        );
+                      });
+                },
+              ),
             ),
           ]),
         ),
