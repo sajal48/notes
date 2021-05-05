@@ -17,7 +17,8 @@ void main() async {
   runApp(MultiBlocProvider(
     providers: [
       BlocProvider<AuthenticationBloc>(
-        create: (context) => AuthenticationBloc(userRepo: userRepo),
+        create: (context) => AuthenticationBloc(userRepo: userRepo)
+          ..add(AuthenticationStarted()),
       ),
     ],
     child: MultiProvider(
@@ -50,15 +51,17 @@ class MyApp extends StatelessWidget {
             return LoginScreen(
               userRepo: _userRepo,
             );
-          } else if (state is AuthenticationSuccess) {
+          }
+          if (state is AuthenticationSuccess) {
             return HomeScreen(
               user: state.user,
             );
-          } else if (state is AuthenticationInitial) {
-            return LoginScreen(
-              userRepo: _userRepo,
-            );
           }
+          //  if (state is AuthenticationInitial) {
+          //   return LoginScreen(
+          //     userRepo: _userRepo,
+          //   );
+          // }
 
           return Scaffold(
             appBar: AppBar(),
